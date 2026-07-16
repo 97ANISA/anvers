@@ -1,109 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-<<<<<<< HEAD
-import { PlanetData } from "@/data/planets";
-
-interface PlanetProps {
-  planet: PlanetData;
-  onClick?: () => void;
-  selected?: boolean;
-}
-
-export default function Planet({
-  planet,
-  onClick,
-  selected = false,
-}: PlanetProps) {
-  return (
-    <motion.div
-      onClick={() => {
-  console.log("Planet clicked");
-  onClick?.();
-}}
-      animate={{
-        scale: selected ? 3 : 1,
-      }}
-      whileHover={{
-        scale: selected ? 3 : 1.15,
-      }}
-      whileTap={{
-        scale: selected ? 3 : 0.95,
-      }}
-      transition={{
-        duration: 0.8,
-        ease: "easeInOut",
-      }}
-      className="group relative z-10 flex cursor-pointer flex-col items-center"
-    >
-      {/* Glow */}
-      <motion.div
-        animate={{
-          opacity: selected ? 1 : [0.3, 0.6, 0.3],
-          scale: selected ? 2 : [1, 1.08, 1],
-        }}
-        transition={{
-          duration: 2,
-          repeat: selected ? 0 : Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute rounded-full blur-xl"
-        style={{
-          width: planet.size + 18,
-          height: planet.size + 18,
-          background: planet.color,
-        }}
-      />
-
-      {/* Planet */}
-      <motion.div
-        animate={{
-          rotate: 360,
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="relative overflow-hidden rounded-full shadow-2xl"
-        style={{
-          width: planet.size,
-          height: planet.size,
-          background: `radial-gradient(circle at 30% 30%, white, ${planet.color})`,
-        }}
-      >
-        {/* Highlight */}
-        <div className="absolute left-[20%] top-[18%] h-[20%] w-[20%] rounded-full bg-white/60 blur-sm" />
-
-        {/* Texture */}
-        <div className="absolute left-[15%] top-[45%] h-[12%] w-[45%] rounded-full bg-white/10" />
-
-        <div className="absolute right-[10%] bottom-[25%] h-[10%] w-[30%] rounded-full bg-black/10" />
-
-        <div className="absolute left-[40%] bottom-[18%] h-[12%] w-[20%] rounded-full bg-black/10" />
-      </motion.div>
-
-      {/* Label */}
-      <motion.div
-        animate={{
-          opacity: selected ? 1 : 0.6,
-          y: selected ? 8 : 0,
-        }}
-        transition={{
-          duration: 0.4,
-        }}
-        className="mt-3 text-center"
-      >
-        <h3 className="text-xs tracking-[0.2em] text-white">
-          {planet.title}
-        </h3>
-
-        <p className="mt-1 text-[10px] text-white/50">
-          {planet.subtitle}
-        </p>
-      </motion.div>
-    </motion.div>
-=======
 import { useMemo, useState } from "react";
 import ShootingStar from "@/components/galaxy/ShootingStar";
 
@@ -217,7 +114,7 @@ export default function GalaxyScreen({
             {/* ================= PLANETS ================= */}
 
       {planets.map((planet, index) => {
-                const isSelected = selectedPlanet === planet.id;
+        const isSelected = selectedPlanet === planet.id;
 
         return (
           <motion.div
@@ -258,7 +155,7 @@ export default function GalaxyScreen({
               top: planet.y,
             }}
           >
-            {/* Glow */}
+            {/* Planet Glow */}
             <motion.div
               animate={{
                 scale: isSelected ? 1.35 : 1,
@@ -282,15 +179,18 @@ export default function GalaxyScreen({
               style={{
                 width: planet.size,
                 height: planet.size,
-                background: `radial-gradient(circle at 30% 30%, white, ${planet.color})`,
+                background: `radial-gradient(circle at 30% 30%, #ffffff, ${planet.color})`,
               }}
             >
+              {/* Highlight */}
               <div className="absolute left-5 top-5 h-5 w-5 rounded-full bg-white/70 blur-sm" />
 
+              {/* Texture */}
               <div className="absolute left-6 top-10 h-4 w-14 rounded-full bg-white/10" />
               <div className="absolute right-5 bottom-7 h-3 w-10 rounded-full bg-black/10" />
               <div className="absolute left-10 bottom-12 h-5 w-8 rounded-full bg-black/10" />
 
+              {/* Ring (Science & Ocean) */}
               {(planet.id === "science" || planet.id === "ocean") && (
                 <motion.div
                   animate={{
@@ -306,6 +206,7 @@ export default function GalaxyScreen({
               )}
             </motion.div>
 
+            {/* Label */}
             <motion.div
               animate={{
                 opacity: isSelected ? 1 : 0.8,
@@ -324,33 +225,38 @@ export default function GalaxyScreen({
           </motion.div>
         );
       })}
+            {/* ================= TITLE ================= */}
 
-      {/* TITLE */}
       <motion.div
         initial={{
           opacity: 0,
-          y: -20,
+          y: -30,
         }}
         animate={{
           opacity: 1,
           y: 0,
         }}
+        transition={{
+          duration: 1,
+        }}
         className="absolute left-12 top-10"
       >
-        <p className="text-sm tracking-[0.4em] text-white/50">
-          ANVERS
+        <p className="text-sm uppercase tracking-[0.45em] text-white/50">
+          Welcome to
         </p>
 
-        <h1 className="mt-3 text-6xl font-bold text-white">
-          Galaxy
+        <h1 className="mt-3 bg-gradient-to-r from-white via-sky-200 to-indigo-300 bg-clip-text text-6xl font-bold text-transparent">
+          ANVERS GALAXY
         </h1>
 
-        <p className="mt-3 text-white/60">
-          Explore my universe.
+        <p className="mt-4 max-w-md text-white/60">
+          Explore planets, discover stories, memories, projects,
+          and worlds hidden inside Anvers.
         </p>
       </motion.div>
 
-      {/* Selected Planet */}
+      {/* ================= PLANET INFO ================= */}
+
       {selectedPlanet && (
         <motion.div
           initial={{
@@ -361,9 +267,12 @@ export default function GalaxyScreen({
             opacity: 1,
             x: 0,
           }}
+          exit={{
+            opacity: 0,
+          }}
           className="absolute bottom-10 right-10 w-80 rounded-3xl border border-white/10 bg-white/10 p-6 backdrop-blur-xl"
         >
-          <p className="text-xs uppercase tracking-[0.3em] text-white/40">
+          <p className="text-xs uppercase tracking-[0.35em] text-white/40">
             Selected Planet
           </p>
 
@@ -371,20 +280,35 @@ export default function GalaxyScreen({
             {selectedPlanet}
           </h2>
 
-          <button className="mt-6 w-full rounded-xl bg-white py-3 font-semibold text-slate-900">
-            Explore →
+          <p className="mt-4 text-sm leading-7 text-white/70">
+            Click this planet again later to enter its world.
+            Soon every planet will become a fully interactive
+            experience with its own animations and environment.
+          </p>
+
+          <button
+            className="mt-6 w-full rounded-xl bg-white py-3 font-medium text-slate-900 transition hover:scale-[1.02]"
+          >
+            Explore Planet →
           </button>
         </motion.div>
       )}
 
-      {/* Back */}
-      <button
+      {/* ================= BACK BUTTON ================= */}
+
+      <motion.button
+        whileHover={{
+          scale: 1.05,
+        }}
+        whileTap={{
+          scale: 0.95,
+        }}
         onClick={onBack}
-        className="absolute right-10 top-10 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-white backdrop-blur-xl"
+        className="absolute right-10 top-10 rounded-2xl border border-white/10 bg-white/10 px-6 py-3 text-white backdrop-blur-xl transition"
       >
         ← Back Home
-      </button>
+      </motion.button>
+
     </main>
->>>>>>> d11ec3485fa6373bd609cc1bb87f215e5781e1f4
   );
 }
