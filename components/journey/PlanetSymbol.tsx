@@ -9,11 +9,11 @@ interface PlanetSymbolProps {
 const symbols: Record<string, string> = {
   mercury: "☿",
   venus: "♀",
-  earth: "🌍",
+  earth: "⊕",
   mars: "♂",
   jupiter: "♃",
   saturn: "♄",
-  uranus: "♅",
+  uranus: "⛢",
   neptune: "♆",
 };
 
@@ -27,17 +27,17 @@ export default function PlanetSymbol({
         scale: 0.7,
       }}
       animate={{
-        opacity: [0.45, 1, 0.45],
+        opacity: [0.7, 1, 0.7],
         scale: [1, 1.05, 1],
       }}
       transition={{
-        duration: 5,
+        duration: 4,
         repeat: Infinity,
         ease: "easeInOut",
       }}
-      className="mb-16 text-[180px] text-[#D7B179]"
+      className="mb-16 text-[140px] text-[#D6B27C]"
     >
-      {symbols[planet]}
+      {symbols[planet] ?? "✦"}
     </motion.div>
   );
 }
